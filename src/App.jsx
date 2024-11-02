@@ -4,7 +4,6 @@ import Header from "./components/Header";
 import { db } from "./data/db";
 import Guitar from "./components/Guitar";
 import Footer from "./components/Footer";
-// import { db } from ".data/db";
 
 function App() {
   const [data] = useState(db);
@@ -32,7 +31,7 @@ function App() {
   }
   return (
     <>
-      <Header />
+      <Header key={cart.id} cart={cart} />
 
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>

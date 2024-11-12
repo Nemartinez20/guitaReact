@@ -11,5 +11,3 @@ Currently, two official plugins are available:
 
 como iniciar un proyecto en **react**, como crear componentes y utilizar el useState
 [ir al sitio web oficial](https://sumercetech.com)
-
-# prueba

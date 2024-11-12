@@ -29,6 +29,10 @@ function App() {
       setCart((prevCart) => [...prevCart, newItem]); //Setear el stado de cart
     }
   }
+
+  const eliminarProducto = ()=>{
+    console.log('desde eliminar product0..')
+  }
   return (
     <>
       <Header key={cart.id} cart={cart} />

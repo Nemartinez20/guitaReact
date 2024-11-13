@@ -6,6 +6,8 @@ import Guitar from "./components/Guitar";
 import Footer from "./components/Footer";
 
 function App() {
+  //
+  //
   const [data] = useState(db);
   const [cart, setCart] = useState([]);
 
@@ -13,12 +15,12 @@ function App() {
   const MIN_ITEM = 1;
 
   function addToCart(item) {
-    console.log("diste click");
     //Verificar si existe la item en el cartito
     const guitarExist = cart.findIndex((Element) => Element.id === item.id);
 
     if (guitarExist >= 0) {
       //Si ya existe producto en el cart
+      if (cart[guitarExist].quantity >= MAX_ITEM) return; //para que no me agrega mas de 5 elementos
       const updateCart = [...cart]; //tomar una copia del cart
       updateCart[guitarExist].quantity++; //segun el indice del item invrementa la cantidad
       setCart(updateCart); //Se  actualiza la cantidad al state
@@ -53,9 +55,7 @@ function App() {
     setCart(updateCart);
   };
 
-  //
   const restarQuantity = (id) => {
-    console.log("restando. ", id);
     const updateCart = cart.map((item) => {
       if (item.id === id && item.quantity > MIN_ITEM) {
         return {
@@ -87,7 +87,6 @@ function App() {
             <Guitar
               key={guitarra.id}
               guitarra={guitarra}
-              setCart={setCart}
               addToCart={addToCart}
             />
           ))}

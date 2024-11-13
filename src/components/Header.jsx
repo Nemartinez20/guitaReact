@@ -1,12 +1,20 @@
+import { useMemo } from "react";
+
 export default function Header({ cart }) {
   // console.log(cart);
+  /*=======================================================================================  
+   se usa UseMemo para cada vez que el arreglo de dependencias que es
+   cart cambie, se ejecuta la funcion de isEmpty / cartTotal para un mejor performance
+   ======================================================================================= */
 
-  // State   Derivado
-  const isEmpty = () => cart.length === 0;
+  // State   Derivado  para mostrar msj en dom condicional
+  const isEmpty = useMemo(() => cart.length === 0, [cart]);
 
   //State derivado para calcular el total del valor de los productos
-  const cartTotal = () =>
-    cart.reduce((total, item) => total + item.quantity * item.price, 0);
+  const cartTotal = useMemo(
+    () => cart.reduce((total, item) => total + item.quantity * item.price, 0),
+    [cart]
+  );
 
   //Render a la vistas
   return (
@@ -32,7 +40,7 @@ export default function Header({ cart }) {
                 />
 
                 <div id="carrito" className="bg-white p-3">
-                  {isEmpty() ? (
+                  {isEmpty ? (
                     <p className="text-center">El carrito esta vacio</p>
                   ) : (
                     <>
@@ -82,7 +90,7 @@ export default function Header({ cart }) {
 
                       <p className="text-end">
                         Total pagar:{" "}
-                        <span className="fw-bold">${cartTotal()}</span>
+                        <span className="fw-bold">${cartTotal}</span>
                       </p>
                     </>
                   )}

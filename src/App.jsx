@@ -6,16 +6,21 @@ import Guitar from "./components/Guitar";
 import Footer from "./components/Footer";
 
 function App() {
+  //
+  //
   const [data] = useState(db);
   const [cart, setCart] = useState([]);
 
+  const MAX_ITEM = 5;
+  const MIN_ITEM = 1;
+
   function addToCart(item) {
-    console.log("diste click");
     //Verificar si existe la item en el cartito
     const guitarExist = cart.findIndex((Element) => Element.id === item.id);
 
     if (guitarExist >= 0) {
       //Si ya existe producto en el cart
+      if (cart[guitarExist].quantity >= MAX_ITEM) return; //para que no me agrega mas de 5 elementos
       const updateCart = [...cart]; //tomar una copia del cart
       updateCart[guitarExist].quantity++; //segun el indice del item invrementa la cantidad
       setCart(updateCart); //Se  actualiza la cantidad al state
@@ -30,12 +35,49 @@ function App() {
     }
   }
 
-  const eliminarProducto = ()=>{
-    console.log('desde eliminar product0..')
-  }
+  const eliminarProducto = (id) => {
+    const productos = cart.filter((element) => element.id !== id);
+    setCart(productos);
+    // setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
+
+  const IncrementarQuantity = (id) => {
+    const updateCart = cart.map((item) => {
+      if (item.id === id && item.quantity < MAX_ITEM) {
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      }
+      return item;
+    });
+
+    setCart(updateCart);
+  };
+
+  const restarQuantity = (id) => {
+    const updateCart = cart.map((item) => {
+      if (item.id === id && item.quantity > MIN_ITEM) {
+        return {
+          ...item,
+          quantity: item.quantity - 1,
+        };
+      }
+      return item;
+    });
+
+    setCart(updateCart);
+  };
+
   return (
     <>
-      <Header key={cart.id} cart={cart} />
+      <Header
+        key={cart.id}
+        cart={cart}
+        eliminarProducto={eliminarProducto}
+        IncrementarQuantity={IncrementarQuantity}
+        restarQuantity={restarQuantity}
+      />
 
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
@@ -45,7 +87,6 @@ function App() {
             <Guitar
               key={guitarra.id}
               guitarra={guitarra}
-              setCart={setCart}
               addToCart={addToCart}
             />
           ))}

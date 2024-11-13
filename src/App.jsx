@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "./components/Header";
 import { db } from "./data/db";
@@ -8,11 +8,22 @@ import Footer from "./components/Footer";
 function App() {
   //
   //
+  //Recupaerar de local storage
+  const initialCart = () => {
+    const localStorageCart = localStorage.getItem("carrito");
+    return localStorageCart ? JSON.parse(localStorageCart) : [];
+  };
+
   const [data] = useState(db);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(initialCart);
 
   const MAX_ITEM = 5;
   const MIN_ITEM = 1;
+
+  //Enviar al localStorage
+  useEffect(() => {
+    localStorage.setItem("carrito", JSON.stringify(cart));
+  }, [cart]);
 
   function addToCart(item) {
     //Verificar si existe la item en el cartito
@@ -30,7 +41,6 @@ function App() {
         ...item, //se toma una copia del producto y se agrega nueva propiedad quantity
         quantity: 1, // Establece la cantidad sin modificar el objeto original
       };
-
       setCart((prevCart) => [...prevCart, newItem]); //Setear el stado de cart
     }
   }
@@ -69,10 +79,10 @@ function App() {
     setCart(updateCart);
   };
 
-
-  const clearCart = ()=>{
+  const clearCart = () => {
     setCart([]);
-  }
+  };
+
   return (
     <>
       <Header

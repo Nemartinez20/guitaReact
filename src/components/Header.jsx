@@ -5,6 +5,7 @@ export default function Header({
   eliminarProducto,
   IncrementarQuantity,
   restarQuantity,
+  clearCart,
 }) {
  
 
@@ -111,7 +112,7 @@ return (
                       </p>
                     </>
                   )}
-                  <button className="btn btn-dark w-100 mt-3 p-2">
+                  <button className="btn btn-dark w-100 mt-3 p-2" onClick={clearCart}>
                     Vaciar Carrito
                   </button>
                 </div>

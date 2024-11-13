@@ -9,6 +9,9 @@ function App() {
   const [data] = useState(db);
   const [cart, setCart] = useState([]);
 
+  const MAX_ITEM = 5;
+  const MIN_ITEM = 1;
+
   function addToCart(item) {
     console.log("diste click");
     //Verificar si existe la item en el cartito
@@ -36,23 +39,36 @@ function App() {
     // setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
-  //Incremaetar cantidad
   const IncrementarQuantity = (id) => {
-    console.log("incrementando. ", id);
     const updateCart = cart.map((item) => {
-      if (item.id === id) {
+      if (item.id === id && item.quantity < MAX_ITEM) {
         return {
           ...item,
           quantity: item.quantity + 1,
         };
       }
+      return item;
     });
 
     setCart(updateCart);
   };
+
+  //
   const restarQuantity = (id) => {
     console.log("restando. ", id);
+    const updateCart = cart.map((item) => {
+      if (item.id === id && item.quantity > MIN_ITEM) {
+        return {
+          ...item,
+          quantity: item.quantity - 1,
+        };
+      }
+      return item;
+    });
+
+    setCart(updateCart);
   };
+
   return (
     <>
       <Header
